@@ -1,3 +1,4 @@
+```java
 package com.dzwww.news.android.adapter;
 
 import android.content.Context;
@@ -60,3 +61,6 @@ public abstract class BindableAdapter<T> extends BaseAdapter {
     bindView(item, position, view);
   }
 }
+
+
+```
