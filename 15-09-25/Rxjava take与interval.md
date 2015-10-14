@@ -1,16 +1,24 @@
-**rxjava take操作符与interval用法**
+**rxjava throttleFirst
 
 ```java
-subscription = Observable.interval(1, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .take(20)
-                .subscribe(new Action1<Long>() {
-                    @Override
-                    public void call(Long aLong) {
-                        System.out.println(aLong);
+final BehaviorSubject<View> behaviorSubject = BehaviorSubject.create();
 
-                    }
-                });
+
+
+        findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                behaviorSubject.onNext(v);
+            }
+        });
+
+
+
+        behaviorSubject.throttleFirst(500, TimeUnit.MILLISECONDS).subscribe(new Action1<View>() {
+            @Override
+            public void call(View view) {
+                System.out.println("click--------");
+            }
+        });
 ```
-每隔1s会调用一次System.out.println(aLong);一共调用20次；可以用于倒计时类似的场景。subscription.unsubscribe();后会停止。
+通过throttleFirst可以简单的解决掉手抖短时间内点击多次导致打开多个相同界面的问题。
